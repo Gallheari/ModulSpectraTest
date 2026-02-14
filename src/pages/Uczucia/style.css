@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Roboto:wght@400;700&display=swap');
+
+:root {
+  --primary-color: #ff6b6b;
+  --secondary-color: #4ecdc4;
+  --background-color: #f7fff7;
+  --text-color: #333;
+  --white: #fff;
+  --success-color: #5ddc55;
+  --error-color: #ff5e5e;
+}
+
+.uczuciacontainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  padding-top: 2rem;
+  background-color: var(--background-color);
+  background-image: subtle-pattern.png;
+  font-family: 'Roboto', sans-serif;
+  color: var(--text-color);
+  text-align: center;
+  overflow: hidden;
+}
+
+h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 3rem;
+    color: var(--primary-color);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 0.5rem;
+  }
+
+.score-board {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: var(--secondary-color);
+    color: var(--white);
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    font-family: 'Fredoka One', cursive;
+}
+
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.emoji {
+  font-size: 12rem;
+  margin: 1rem 0;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.emoji.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.option-button, .start-button {
+  padding: 1rem 2.5rem;
+  font-size: 1.8rem;
+  font-family: 'Fredoka One', cursive;
+  border: none;
+  border-radius: 50px;
+  color: var(--white);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+}
+
+.option-button {
+    background: linear-gradient(45deg, var(--primary-color), #ff8a8a);
+}
+
+.start-button {
+    background: linear-gradient(45deg, var(--secondary-color), #6fe8de);
+}
+
+.option-button:hover, .start-button:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.message {
+  font-size: 2.2rem;
+  font-weight: bold;
+  font-family: 'Fredoka One', cursive;
+  padding: 10px 20px;
+  border-radius: 15px;
+  animation: fadeIn 0.5s;
+}
+
+.message.success {
+  color: var(--success-color);
+}
+
+.message.error {
+  color: var(--error-color);
+  animation: shake 0.5s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-10px); }
+  40%, 80% { transform: translateX(10px); }
+}

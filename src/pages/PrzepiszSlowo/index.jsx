@@ -8,7 +8,7 @@ const SuccessCelebration = ({ emoji }) => (
     </div>
 );
 
-const PrzepisywanieComponent = () => {
+const PrzepiszSlowo = () => {
     const [words, setWords] = useState([
         { word: "słońce", emoji: "☀️" },
         { word: "książka", emoji: "📚" },
@@ -146,4 +146,4 @@ const PrzepisywanieComponent = () => {
     );
 };
 
-export default PrzepisywanieComponent;
+export default PrzepiszSlowo;
