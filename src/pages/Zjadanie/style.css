@@ -3,41 +3,163 @@
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
+  font-family: 'Arial', sans-serif;
 }
 
 .board {
   display: grid;
-  grid-template-columns: repeat(10, 30px);
-  border: 2px solid #333;
-}
-
-.row {
-  display: flex;
+  grid-template-columns: repeat(10, 40px);
+  border: 3px solid #1a1a7a;
+  background-color: #000;
 }
 
 .cell {
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .wall {
-  background-color: #333;
+  background-color: #1a1a7a;
+  box-shadow: 0 0 5px #fff;
 }
 
 .pacman {
-  background-color: yellow;
+  width: 30px;
+  height: 30px;
+  background-color: #ff0;
   border-radius: 50%;
+  position: relative;
+}
+
+.pacman.right {
+  animation: eat-right 0.5s infinite;
+}
+.pacman.left {
+  animation: eat-left 0.5s infinite;
+}
+.pacman.up {
+  animation: eat-up 0.5s infinite;
+}
+.pacman.down {
+  animation: eat-down 0.5s infinite;
+}
+
+@keyframes eat-right {
+  0%, 100% { clip-path: polygon(50% 50%, 100% 0, 100% 100%); }
+  50% { clip-path: polygon(50% 50%, 100% 20%, 100% 80%); }
+}
+
+@keyframes eat-left {
+  0%, 100% { clip-path: polygon(50% 50%, 0 0, 0 100%); }
+  50% { clip-path: polygon(50% 50%, 0 20%, 0 80%); }
+}
+
+@keyframes eat-up {
+  0%, 100% { clip-path: polygon(50% 50%, 0 0, 100% 0); }
+  50% { clip-path: polygon(50% 50%, 20% 0, 80% 0); }
+}
+
+@keyframes eat-down {
+  0%, 100% { clip-path: polygon(50% 50%, 0 100%, 100% 100%); }
+  50% { clip-path: polygon(50% 50%, 20% 100%, 80% 100%); }
 }
 
 .dot {
+  width: 12px;
+  height: 12px;
   background-color: #fff;
   border-radius: 50%;
-  width: 10px;
-  height: 10px;
-  margin: 10px;
+  box-shadow: 0 0 3px #fff;
 }
 
+.power-pellet {
+  width: 20px;
+  height: 20px;
+  background-color: #ff9900;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #ff9900;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+.ghost {
+  width: 30px;
+  height: 30px;
+  border-radius: 50% 50% 0 0;
+  position: relative;
+}
+
+.ghost.red { background-color: #f00; }
+.ghost.pink { background-color: #f9c; }
+.ghost.cyan { background-color: #0ff; }
+.ghost.orange { background-color: #f90; }
+.ghost.scared { 
+  background-color: #0066ff; 
+  animation: flash 0.3s infinite;
+}
+
+@keyframes flash {
+  0%, 100% { background-color: #0066ff; }
+  50% { background-color: #fff; }
+}
+
+.ghost .eyes {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 8px;
+  width: 100%;
+}
+
+.ghost .eye {
+  width: 8px;
+  height: 8px;
+  background-color: #fff;
+  border-radius: 50%;
+  margin: 0 2px;
+}
+
+.ghost .pupil {
+  width: 4px;
+  height: 4px;
+  background-color: #000;
+  border-radius: 50%;
+}
+
+
 .score {
-    font-size: 24px;
-    margin-bottom: 10px;
+    font-size: 32px;
+    margin-bottom: 15px;
+    color: #fff;
+    text-shadow: 0 0 5px #fff;
+}
+
+.game-over {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 48px;
+  color: #f00;
+  text-shadow: 0 0 10px #f00;
+  z-index: 10;
+}
+
+.start-button {
+  font-size: 24px;
+  padding: 10px 20px;
+  border: 2px solid #fff;
+  background-color: #1a1a7a;
+  color: #fff;
+  cursor: pointer;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #fff;
 }

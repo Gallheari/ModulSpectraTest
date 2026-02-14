@@ -19,45 +19,57 @@ const emotions = [
     { name: 'Wstręt', emoji: '🤢' },
   ];
 
+// Helper function to generate a new round's data
+const generateNewRound = () => {
+  const correctEmotion = emotions[Math.floor(Math.random() * emotions.length)];
+  let options = [correctEmotion];
+
+  while (options.length < 4) {
+    const randomEmotion = emotions[Math.floor(Math.random() * emotions.length)];
+    if (!options.find(e => e.name === randomEmotion.name)) {
+      options.push(randomEmotion);
+    }
+  }
+
+  options = options.sort(() => Math.random() - 0.5);
+  return { correctEmotion, options };
+};
+
+
 const Uczucia = () => {
-  const [currentEmotion, setCurrentEmotion] = useState(null);
-  const [options, setOptions] = useState([]);
+  const [roundData, setRoundData] = useState(generateNewRound); // Lazy initialization
+  const { correctEmotion, options } = roundData;
   const [message, setMessage] = useState({ text: '', type: '' });
   const [score, setScore] = useState(0);
   const [showConfetti, setShowConfetti] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
 
-  const startGame = () => {
+  // This function is now used only to advance to the next round
+  const startNewRound = () => {
     setIsAnimating(false);
-    const correctEmotion = emotions[Math.floor(Math.random() * emotions.length)];
-    let randomOptions = [correctEmotion];
-
-    while (randomOptions.length < 4) {
-      const randomEmotion = emotions[Math.floor(Math.random() * emotions.length)];
-      if (!randomOptions.find(e => e.name === randomEmotion.name)) {
-        randomOptions.push(randomEmotion);
-      }
-    }
-
-    randomOptions = randomOptions.sort(() => Math.random() - 0.5);
-    setCurrentEmotion(correctEmotion);
-    setOptions(randomOptions);
+    setRoundData(generateNewRound());
     setMessage({ text: '', type: '' });
     setShowConfetti(false);
     setTimeout(() => setIsAnimating(true), 100); 
   };
 
+  // On initial mount, trigger the animation for the first emoji
   useEffect(() => {
-    startGame();
+    const timer = setTimeout(() => {
+      setIsAnimating(true);
+    }, 100);
+    return () => clearTimeout(timer);
   }, []);
 
   const checkAnswer = (emotionName) => {
-    if (emotionName === currentEmotion.name) {
+    if (showConfetti) return; // Prevent multiple clicks after a correct answer
+
+    if (emotionName === correctEmotion.name) {
       setScore(prevScore => prevScore + 1);
       setMessage({ text: '💖 Doskonale! 💖', type: 'success' });
       setShowConfetti(true);
       setTimeout(() => {
-        startGame();
+        startNewRound();
       }, 2000);
     } else {
       setMessage({ text: 'Spróbuj jeszcze raz.', type: 'error' });
@@ -69,9 +81,9 @@ const Uczucia = () => {
         {showConfetti && <Confetti />}
       <div className="score-board">Punkty: {score}</div>
       <h1>Jaką emocję czujesz?</h1>
-      {currentEmotion ? (
+      {correctEmotion ? (
         <div className="game-container">
-          <div className={`emoji ${isAnimating ? 'show' : ''}`}>{currentEmotion.emoji}</div>
+          <div className={`emoji ${isAnimating ? 'show' : ''}`}>{correctEmotion.emoji}</div>
           <div className="options">
             {options.map((emotion) => (
               <button key={emotion.name} onClick={() => checkAnswer(emotion.name)} className="option-button">
@@ -82,7 +94,7 @@ const Uczucia = () => {
           {message.text && <p className={`message ${message.type}`}>{message.text}</p>}
         </div>
       ) : (
-        <button onClick={startGame} className="start-button">Zacznij grę</button>
+        <p>Ładowanie gry...</p>
       )}
     </div>
   );

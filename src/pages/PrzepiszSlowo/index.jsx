@@ -38,6 +38,21 @@ const PrzepiszSlowo = () => {
         const typedValue = e.target.value;
         if (currentWord.toLowerCase().startsWith(typedValue.toLowerCase())) {
             setCurrentAttempt(typedValue);
+
+            if (typedValue.toLowerCase() === currentWord.toLowerCase()) {
+                setShowSuccess(true);
+                setScore(prevScore => prevScore + 1);
+
+                setTimeout(() => {
+                    setShowSuccess(false);
+                    if (currentIndex < words.length - 1) {
+                        setCurrentIndex(currentIndex + 1);
+                        setCurrentAttempt('');
+                    } else {
+                        setIsFinished(true);
+                    }
+                }, 1500);
+            }
         } else {
             setIsShaking(true);
             setTimeout(() => setIsShaking(false), 400);
@@ -55,23 +70,6 @@ const PrzepiszSlowo = () => {
             focusInput();
         }
     }, [showSuccess, currentIndex]); // Re-focus when word changes too
-
-    useEffect(() => {
-        if (currentAttempt.toLowerCase() === currentWord.toLowerCase() && currentAttempt !== '') {
-            setShowSuccess(true);
-            setScore(prevScore => prevScore + 1);
-
-            setTimeout(() => {
-                setShowSuccess(false);
-                if (currentIndex < words.length - 1) {
-                    setCurrentIndex(currentIndex + 1);
-                    setCurrentAttempt('');
-                } else {
-                    setIsFinished(true);
-                }
-            }, 1500);
-        }
-    }, [currentAttempt, currentWord, currentIndex, words.length]);
 
     const restartGame = () => {
         const shuffledWords = [...words].sort(() => Math.random() - 0.5);
