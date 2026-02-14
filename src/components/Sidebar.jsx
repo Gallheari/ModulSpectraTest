@@ -8,6 +8,7 @@ const Sidebar = () => {
       <ul>
         <li><Link to="/">Moduł Michał</Link></li>
         <li><Link to="/dwaid">Moduł Dwaid</Link></li>
+        <li><Link to="/zjadanie">Zjadanie</Link></li>
         <li><Link to="/settings">Settings</Link></li>
       </ul>
     </div>

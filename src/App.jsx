@@ -4,6 +4,7 @@ import Sidebar from './components/Sidebar';
 import Michal from './pages/Michal';
 import Dwaid from './pages/Dwaid';
 import Settings from './pages/Settings';
+import Zjadanie from './pages/Zjadanie';
 import './App.css';
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Michal />} />
             <Route path="/dwaid" element={<Dwaid />} />
+            <Route path="/zjadanie" element={<Zjadanie />} />
             <Route path="/settings" element={<Settings />} />
           </Routes>
         </main>
