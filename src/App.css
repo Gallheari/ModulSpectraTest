@@ -1,8 +1,33 @@
 .app {
-  display: flex;
+    display: flex;
+    height: 100vh;
+    background-color: #f4f4f9;
 }
 
 .content {
-  flex-grow: 1;
-  padding: 20px;
+    flex: 1;
+    padding: 20px;
+    height: 100vh;
+    overflow-y: auto;
+    background-color: #ecf0f1;
+    min-width: 0;
+}
+
+/* Dodaj responsywność dla mniejszych ekranów */
+@media (max-width: 768px) {
+    .content {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .sidebar {
+        /* W przyszłości można dodać opcję chowania paska bocznego */
+        position: static;
+        height: auto;
+        width: 100%;
+    }
+
+    .app {
+        flex-direction: column;
+    }
 }

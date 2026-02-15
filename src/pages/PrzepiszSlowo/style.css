@@ -13,27 +13,13 @@
     --white-color: #ffffff;
 }
 
-/* 3. Globalne style */
-body {
-    font-family: 'Nunito', sans-serif;
-    background: var(--bg-color);
-    color: var(--text-color);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    overflow: hidden;
-}
-
-/* 4. Główny kontener */
+/* 3. Główny kontener */
 .container {
     background-color: var(--white-color);
     border-radius: 50px;
     box-shadow: 0 15px 45px rgba(63, 61, 86, 0.15);
     padding: 30px 40px;
-    width: 90%;
-    max-width: 650px;
+    width: 95%;
     text-align: center;
     transition: all 0.4s ease;
     position: relative;
