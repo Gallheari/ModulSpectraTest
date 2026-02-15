@@ -1,7 +1,256 @@
-.tldraw-container {
-  position: fixed;
-  top: 0;
-  left: 0;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+:root {
+  --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  --bg-color: #f0f4ff;
+  --card-bg: #ffffff;
+  --text-primary: #1f2937;
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.16);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.wrozka-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--bg-color);
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Header */
+.wrozka-header {
   width: 100%;
-  height: 100%;
+  background: var(--primary-gradient);
+  padding: 1.5rem 2rem;
+  text-align: center;
+  box-shadow: var(--shadow-lg);
+  z-index: 100;
+  animation: slideDown 0.6s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.wrozka-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: white;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+  letter-spacing: -0.5px;
+  margin: 0;
+}
+
+.wrozka-header p {
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0.5rem 0 0 0;
+}
+
+/* Tldraw Container */
+.tldraw-container {
+  flex: 1;
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 120px);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  margin: 1.5rem;
+  background: white;
+  animation: fadeIn 0.8s ease-out 0.2s both;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Tldraw UI Customization */
+.tldraw-container > div {
+  border-radius: 24px;
+}
+
+/* Instructions Overlay */
+.drawing-instructions {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 1rem 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  animation: bounceIn 0.8s ease-out 0.5s both;
+  border: 3px solid rgba(102, 126, 234, 0.3);
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1.05);
+  }
+  100% {
+    transform: translateX(-50%) scale(1);
+  }
+}
+
+.drawing-instructions .icon {
+  font-size: 2rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.drawing-instructions .text {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+.drawing-instructions .close-btn {
+  background: var(--primary-gradient);
+  color: white;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+.drawing-instructions .close-btn:hover {
+  transform: scale(1.1) rotate(90deg);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+/* Magic Effects */
+.magic-sparkles {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 999;
+}
+
+.sparkle {
+  position: absolute;
+  font-size: 2rem;
+  animation: sparkleFloat 2s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes sparkleFloat {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(0deg) scale(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(var(--tx), var(--ty)) rotate(180deg) scale(1.5);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(var(--tx) * 2), calc(var(--ty) * 2)) rotate(360deg) scale(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .wrozka-header h1 {
+    font-size: 2rem;
+  }
+
+  .wrozka-header p {
+    font-size: 1rem;
+  }
+
+  .tldraw-container {
+    height: calc(100vh - 100px);
+    margin: 1rem;
+    border-radius: 16px;
+  }
+
+  .drawing-instructions {
+    padding: 0.8rem 1.5rem;
+    max-width: 90%;
+  }
+
+  .drawing-instructions .icon {
+    font-size: 1.5rem;
+  }
+
+  .drawing-instructions .text {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .wrozka-header {
+    padding: 1rem;
+  }
+
+  .wrozka-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .wrozka-header p {
+    font-size: 0.9rem;
+  }
+
+  .tldraw-container {
+    height: calc(100vh - 80px);
+    margin: 0.5rem;
+    border-radius: 12px;
+  }
+
+  .drawing-instructions {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    margin: 0.5rem;
+  }
 }

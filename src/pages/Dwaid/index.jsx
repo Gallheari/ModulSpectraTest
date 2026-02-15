@@ -1,32 +1,45 @@
 import React from 'react';
+import './style.css';
 
 const Dwaid = () => {
-  const containerStyle = {
-    padding: '2rem',
-    textAlign: 'center',
-  };
-
-  const headerStyle = {
-    fontSize: '3rem',
-    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-    marginBottom: '2rem',
-  };
-
-  const textStyle = {
-    fontSize: '1.5rem',
-    color: '#333',
-    lineHeight: '1.6',
-  };
-
   return (
-    <div style={containerStyle}>
-      <h1 style={headerStyle}>Witaj w module Dawid!</h1>
-      <p style={textStyle}>
-        To jest dynamicznie renderowany, kolorowy tekst, który ma za zadanie
-        przyciągnąć Twoją uwagę i pokazać możliwości Reacta!
-      </p>
+    <div className="dwaid-container">
+      <div className="dwaid-header">
+        <h1>Witaj w module Dawid!</h1>
+      </div>
+
+      <div className="dwaid-content">
+        <p className="dwaid-text">
+          To jest dynamicznie renderowany, kolorowy tekst, który ma za zadanie
+          przyciągnąć Twoją uwagę i pokazać możliwości Reacta!
+        </p>
+
+        <div className="feature-grid">
+          <div className="feature-card">
+            <span className="feature-icon">🎨</span>
+            <h3 className="feature-title">Nowoczesny Design</h3>
+            <p className="feature-description">
+              Piękne gradienty i animacje CSS
+            </p>
+          </div>
+
+          <div className="feature-card">
+            <span className="feature-icon">⚡</span>
+            <h3 className="feature-title">Szybkie Działanie</h3>
+            <p className="feature-description">
+              Zoptymalizowane pod kątem wydajności
+            </p>
+          </div>
+
+          <div className="feature-card">
+            <span className="feature-icon">📱</span>
+            <h3 className="feature-title">Responsywność</h3>
+            <p className="feature-description">
+              Działa na wszystkich urządzeniach
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

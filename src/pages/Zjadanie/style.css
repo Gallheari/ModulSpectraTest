@@ -1,165 +1,554 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+:root {
+  --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  --success-color: #10b981;
+  --error-color: #ef4444;
+  --warning-color: #ffc107;
+  --bg-color: #f0f4ff;
+  --card-bg: #ffffff;
+  --text-primary: #1f2937;
+  --text-secondary: #6b7280;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.16);
+  --pacman-yellow: #FFD700;
+  --game-bg: #0a0a2e;
+  --wall-color: #1a1a7a;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 .zjadanie-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px;
-  font-family: 'Arial', sans-serif;
+  min-height: 100vh;
+  padding: 2rem;
+  background: var(--bg-color);
+  font-family: 'Poppins', sans-serif;
+  gap: 1.5rem;
 }
 
+/* Header */
+.zjadanie-container h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
+  animation: slideDown 0.6s ease-out;
+  margin: 0;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Game Container */
+.game-container {
+  background: var(--card-bg);
+  border-radius: 24px;
+  padding: 2rem;
+  box-shadow: var(--shadow-lg);
+  animation: fadeIn 0.8s ease-out 0.2s both;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Score Display */
+.score {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  border-radius: 16px;
+  border: 3px solid rgba(102, 126, 234, 0.3);
+  text-align: center;
+  animation: bounceIn 0.6s ease-out;
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.score span {
+  background: var(--secondary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 2.5rem;
+}
+
+/* Game Board */
 .board {
   display: grid;
-  grid-template-columns: repeat(10, 40px);
-  border: 3px solid #1a1a7a;
-  background-color: #000;
-}
-
-.cell {
-  width: 40px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.wall {
-  background-color: #1a1a7a;
-  box-shadow: 0 0 5px #fff;
-}
-
-.pacman {
-  width: 30px;
-  height: 30px;
-  background-color: #ff0;
-  border-radius: 50%;
+  grid-template-columns: repeat(10, 45px);
+  gap: 2px;
+  border: 4px solid var(--wall-color);
+  background: var(--game-bg);
+  border-radius: 16px;
+  padding: 8px;
+  box-shadow:
+    var(--shadow-lg),
+    inset 0 0 30px rgba(102, 126, 234, 0.2),
+    0 0 50px rgba(102, 126, 234, 0.3);
   position: relative;
 }
 
+.board::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  background: radial-gradient(circle at 50% 50%, rgba(102, 126, 234, 0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.cell {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(10, 10, 46, 0.5);
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.wall {
+  background: linear-gradient(135deg, var(--wall-color) 0%, #2a2a9a 100%);
+  box-shadow:
+    inset 0 2px 4px rgba(255, 255, 255, 0.1),
+    0 2px 8px rgba(102, 126, 234, 0.5);
+  border-radius: 6px;
+  position: relative;
+  overflow: hidden;
+}
+
+.wall::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  animation: wallShimmer 3s infinite;
+}
+
+@keyframes wallShimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Pac-Man */
+.pacman {
+  width: 35px;
+  height: 35px;
+  background: var(--pacman-yellow);
+  border-radius: 50%;
+  position: relative;
+  box-shadow: 0 0 15px var(--pacman-yellow);
+  filter: brightness(1.2);
+}
+
 .pacman.right {
-  animation: eat-right 0.5s infinite;
+  animation: eat-right 0.3s infinite;
 }
 .pacman.left {
-  animation: eat-left 0.5s infinite;
+  animation: eat-left 0.3s infinite;
+  transform: scaleX(-1);
 }
 .pacman.up {
-  animation: eat-up 0.5s infinite;
+  animation: eat-up 0.3s infinite;
+  transform: rotate(-90deg);
 }
 .pacman.down {
-  animation: eat-down 0.5s infinite;
+  animation: eat-down 0.3s infinite;
+  transform: rotate(90deg);
 }
 
 @keyframes eat-right {
   0%, 100% { clip-path: polygon(50% 50%, 100% 0, 100% 100%); }
-  50% { clip-path: polygon(50% 50%, 100% 20%, 100% 80%); }
+  50% { clip-path: polygon(50% 50%, 100% 30%, 100% 70%); }
 }
 
 @keyframes eat-left {
   0%, 100% { clip-path: polygon(50% 50%, 0 0, 0 100%); }
-  50% { clip-path: polygon(50% 50%, 0 20%, 0 80%); }
+  50% { clip-path: polygon(50% 50%, 0 30%, 0 70%); }
 }
 
 @keyframes eat-up {
   0%, 100% { clip-path: polygon(50% 50%, 0 0, 100% 0); }
-  50% { clip-path: polygon(50% 50%, 20% 0, 80% 0); }
+  50% { clip-path: polygon(50% 50%, 30% 0, 70% 0); }
 }
 
 @keyframes eat-down {
   0%, 100% { clip-path: polygon(50% 50%, 0 100%, 100% 100%); }
-  50% { clip-path: polygon(50% 50%, 20% 100%, 80% 100%); }
+  50% { clip-path: polygon(50% 50%, 30% 100%, 70% 100%); }
 }
 
+/* Dots */
 .dot {
-  width: 12px;
-  height: 12px;
-  background-color: #fff;
+  width: 8px;
+  height: 8px;
+  background: white;
   border-radius: 50%;
-  box-shadow: 0 0 3px #fff;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+  animation: dotGlow 2s ease-in-out infinite;
 }
 
+@keyframes dotGlow {
+  0%, 100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+/* Power Pellets */
 .power-pellet {
-  width: 20px;
-  height: 20px;
-  background-color: #ff9900;
+  width: 16px;
+  height: 16px;
+  background: linear-gradient(135deg, #ff9900 0%, #ff6600 100%);
   border-radius: 50%;
-  box-shadow: 0 0 8px #ff9900;
-  animation: pulse 1s infinite;
+  box-shadow:
+    0 0 15px #ff9900,
+    0 0 30px rgba(255, 153, 0, 0.5);
+  animation: powerPulse 0.8s ease-in-out infinite;
 }
 
-@keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.2); }
+@keyframes powerPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow:
+      0 0 15px #ff9900,
+      0 0 30px rgba(255, 153, 0, 0.5);
+  }
+  50% {
+    transform: scale(1.3);
+    box-shadow:
+      0 0 20px #ff9900,
+      0 0 40px rgba(255, 153, 0, 0.8);
+  }
 }
 
+/* Ghosts */
 .ghost {
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: 35px;
   border-radius: 50% 50% 0 0;
   position: relative;
+  box-shadow: 0 0 15px currentColor;
+  transition: all 0.3s ease;
 }
 
-.ghost.red { background-color: #f00; }
-.ghost.pink { background-color: #f9c; }
-.ghost.cyan { background-color: #0ff; }
-.ghost.orange { background-color: #f90; }
-.ghost.scared { 
-  background-color: #0066ff; 
-  animation: flash 0.3s infinite;
+.ghost::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: inherit;
+  clip-path: polygon(
+    0 0,
+    20% 100%,
+    40% 0,
+    60% 100%,
+    80% 0,
+    100% 100%,
+    100% 0
+  );
 }
 
-@keyframes flash {
-  0%, 100% { background-color: #0066ff; }
-  50% { background-color: #fff; }
+.ghost.red {
+  background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
+  color: #ff4444;
 }
 
+.ghost.pink {
+  background: linear-gradient(135deg, #ffb3d9 0%, #ff66b3 100%);
+  color: #ffb3d9;
+}
+
+.ghost.cyan {
+  background: linear-gradient(135deg, #66ffff 0%, #00cccc 100%);
+  color: #66ffff;
+}
+
+.ghost.orange {
+  background: linear-gradient(135deg, #ffaa44 0%, #ff6600 100%);
+  color: #ffaa44;
+}
+
+.ghost.scared {
+  background: linear-gradient(135deg, #4444ff 0%, #0000cc 100%);
+  color: #4444ff;
+  animation: scaredShake 0.2s infinite;
+}
+
+@keyframes scaredShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  75% { transform: translateX(2px); }
+}
+
+/* Ghost Eyes */
 .ghost .eyes {
   display: flex;
   justify-content: center;
+  gap: 6px;
   position: absolute;
-  top: 8px;
+  top: 10px;
   width: 100%;
+  z-index: 1;
 }
 
 .ghost .eye {
-  width: 8px;
-  height: 8px;
-  background-color: #fff;
+  width: 10px;
+  height: 10px;
+  background: white;
   border-radius: 50%;
-  margin: 0 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .ghost .pupil {
-  width: 4px;
-  height: 4px;
-  background-color: #000;
+  width: 5px;
+  height: 5px;
+  background: #000;
   border-radius: 50%;
 }
 
-
-.score {
-    font-size: 32px;
-    margin-bottom: 15px;
-    color: #fff;
-    text-shadow: 0 0 5px #fff;
-}
-
-.game-over {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 48px;
-  color: #f00;
-  text-shadow: 0 0 10px #f00;
-  z-index: 10;
-}
-
+/* Buttons */
 .start-button {
-  font-size: 24px;
-  padding: 10px 20px;
-  border: 2px solid #fff;
-  background-color: #1a1a7a;
-  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding: 1.2rem 3rem;
+  border: none;
+  border-radius: 16px;
+  background: var(--primary-gradient);
+  color: white;
   cursor: pointer;
-  margin-bottom: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px #fff;
+  font-family: 'Poppins', sans-serif;
+  box-shadow: var(--shadow-md);
+  transition: all 0.3s ease;
+  margin: 1rem 0;
+  animation: bounceIn 0.6s ease-out 0.4s both;
+}
+
+.start-button:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(102, 126, 234, 0.4);
+}
+
+.start-button:active {
+  transform: translateY(-2px);
+}
+
+/* Game Over */
+.game-over {
+  font-size: 3rem;
+  font-weight: 700;
+  background: var(--secondary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 1rem 0;
+  animation: gameOverBounce 0.8s ease-out;
+  text-align: center;
+}
+
+@keyframes gameOverBounce {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) rotate(-10deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1) rotate(5deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+/* Instructions */
+.game-instructions {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  border: 3px solid rgba(102, 126, 234, 0.3);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+  animation: fadeIn 0.8s ease-out 0.6s both;
+}
+
+.game-instructions h3 {
+  font-size: 1.3rem;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.game-instructions p {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .zjadanie-container {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .zjadanie-container h1 {
+    font-size: 2rem;
+  }
+
+  .game-container {
+    padding: 1.5rem;
+  }
+
+  .board {
+    grid-template-columns: repeat(10, 35px);
+  }
+
+  .cell {
+    width: 35px;
+    height: 35px;
+  }
+
+  .pacman,
+  .ghost {
+    width: 28px;
+    height: 28px;
+  }
+
+  .score {
+    font-size: 1.5rem;
+    padding: 0.8rem 1.5rem;
+  }
+
+  .score span {
+    font-size: 2rem;
+  }
+
+  .start-button {
+    font-size: 1.2rem;
+    padding: 1rem 2rem;
+  }
+
+  .game-over {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .zjadanie-container h1 {
+    font-size: 1.5rem;
+  }
+
+  .board {
+    grid-template-columns: repeat(10, 30px);
+    gap: 1px;
+  }
+
+  .cell {
+    width: 30px;
+    height: 30px;
+  }
+
+  .pacman,
+  .ghost {
+    width: 24px;
+    height: 24px;
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+  }
+
+  .power-pellet {
+    width: 12px;
+    height: 12px;
+  }
+
+  .score {
+    font-size: 1.2rem;
+  }
+
+  .score span {
+    font-size: 1.5rem;
+  }
+
+  .game-over {
+    font-size: 1.5rem;
+  }
+
+  .start-button {
+    font-size: 1rem;
+    padding: 0.8rem 1.5rem;
+  }
+
+  .game-instructions {
+    padding: 1rem;
+  }
+
+  .game-instructions h3 {
+    font-size: 1.1rem;
+  }
+
+  .game-instructions p {
+    font-size: 0.9rem;
+  }
 }
